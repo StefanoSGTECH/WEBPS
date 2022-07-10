@@ -4,8 +4,8 @@ export const environment = {
 	prefis: "ps",
     mqtt: {
 		server: 'cloudpersonalgroups.stefanoghidini.it',
-		protocol: "ws",
-		port: 1884
+		protocol: "wss",
+		port: 8083
 	}
 };
 
