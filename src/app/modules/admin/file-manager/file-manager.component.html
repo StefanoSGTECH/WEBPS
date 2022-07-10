@@ -1,0 +1,89 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container
+        class="flex-auto h-full bg-card dark:bg-transparent">
+
+        <mat-drawer-content class="flex flex-col bg-gray-100 dark:bg-transparent">
+
+            <!-- Main -->
+            <div class="flex flex-col flex-auto">
+
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
+                    <!-- Title -->
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">I Documenti</div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="mt-4 sm:mt-0">
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex flex-col flex-auto">
+
+                    <div class="p-6 md:p-8 space-y-8 flex" *ngIf="utente === true">
+                        <form [formGroup]="form" class="p-4 bg-card shadow rounded-2xl overflow-hidden" *ngIf="!caric">
+                            <mat-form-field class="flex-auto gt-xs:pr-3" style="min-width: 300px;">
+                                <mat-label>Nome della Cartella</mat-label>
+                                <input matInput type="text" formControlName="nomedir" [(ngModel)]="vnodir">
+                            </mat-form-field>
+                            <button mat-button mat-raised-button color="primary" class="flex justify-end" (click)="createDir()" *ngIf="!caric">
+                                Crea
+                            </button>
+                        </form>
+                        <mat-spinner *ngIf="caric"></mat-spinner>
+                    </div>
+                    
+                    <div class="p-4 grid grid-cols-1 gap-6 w-full min-w-0 ng-star-inserted mt-4">
+                        <!-- Folders -->
+                        <ng-container *ngIf="documents != []">
+                            <div class="flex flex-wrap m-2 mt-2">
+                                    <ng-container *ngFor="let folder of documents;">
+                                        <div class="relative w-40 h-40 m-2 p-4 shadow rounded-2xl bg-card">
+                                            <a
+                                                class="absolute z-20 top-1.5 right-1.5 w-8 h-8 min-h-8"
+                                                (click)="deleteFooter(folder.documentId, folder.id)" color="warn"
+                                                *ngIf="utente === true"
+                                                mat-icon-button>
+                                                <mat-icon  class="icon-size-5" mat-list-icon>delete</mat-icon>
+                                            </a>
+                                            <a
+                                                class="absolute z-20 top-10 right-1.5 w-8 h-8 min-h-8"
+                                                (click)="openShare(folder.nome, folder.documentId, folder.id)" color="primary"
+                                                *ngIf="utente === true"
+                                                mat-icon-button>
+                                                <mat-icon class="icon-size-5" mat-list-icon>settings</mat-icon>
+                                            </a>
+                                            <a
+                                                class="z-10 absolute inset-0 flex flex-col p-4 cursor-pointer"
+                                                (click)="openFolder(folder)" >
+                                                <div class="aspect-w-9 aspect-h-6">
+                                                    <div class="flex items-center justify-center">
+                                                        <!-- Icon -->
+                                                        <mat-icon
+                                                            class="icon-size-14 text-hint"
+                                                            [svgIcon]="'iconsmind:folder'"></mat-icon>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-col flex-auto justify-center text-center text-sm font-medium">
+                                                    <div
+                                                        class="truncate"
+                                                        [matTooltip]="folder.name">{{ folder.name }}</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

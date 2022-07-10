@@ -1,0 +1,91 @@
+<div class="flex flex-col items-center w-full p-4">
+    <div class="relative w-24 h-24">
+        <img
+            class="w-full h-full rounded-full"
+            [src]="operation.creatorimage"
+            alt="User avatar">
+    </div>
+    <div class="flex flex-col items-center justify-center w-full mt-2">
+        <div class="w-full mt-0.5 whitespace-nowrap overflow-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
+            {{operation.creatorSede}}
+        </div>
+        <div class="w-full whitespace-nowrap overflow-ellipsis overflow-hidden text-center leading-normal text-2xl font-medium mt-2">
+            {{operation.creatorNome}} {{operation.creatorCognome}}
+        </div>
+    </div>
+</div>
+
+
+<p style="text-align:left;color: green;" class="font-medium font-bold pl-18 pr-18">
+    {{ operation.data }}
+    <span style="float:right;color: blue;">
+        {{ operation.clientNome }} {{ operation.clientCognome }}
+    </span>
+</p>
+
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-6">
+    Tipo:
+    <span style="float:right;" class="font-normal">
+        {{ operation.registrazione }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Ramo:
+    <span style="float:right;" class="font-normal">
+        {{ operation.ramo }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Tipologia:
+    <span style="float:right;" class="font-normal">
+        {{ operation.tipologia }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Premio:
+    <span style="float:right;" class="font-normal">
+        {{ operation.premio }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Frazionamento:
+    <span style="float:right;" class="font-normal">
+        {{ operation.frazionamento }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Durata:
+    <span style="float:right;" class="font-normal">
+        {{ operation.durata }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Montante:
+    <span style="float:right;" class="font-normal">
+        {{ operation.montante }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Montante Provvigionale:
+    <span style="float:right;" class="font-normal">
+        {{ operation.montanteprov }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Provvigione:
+    <span style="float:right;" class="font-normal">
+        {{ operation.provvigione }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Provvigione in %:
+    <span style="float:right;" class="font-normal">
+        {{ operation.provvigioneperc }}
+    </span>
+</p>
+<p style="text-align:left;" class="font-medium font-bold pl-2 pr-2 pt-2">
+    Risultato:
+    <span style="float:right;" class="font-normal">
+        {{ operation.provvigionelordmat }}
+    </span>
+</p>

@@ -1,0 +1,112 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Aggiungi Utenza
+                </h2>
+            </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button mat-raised-button color="primary" routerLink="/utenze">Torna alle utenze</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="p-4 bg-card shadow rounded-2xl overflow-hidden">
+
+            <div class="text-2xl text-center m-4 justify-center flex">
+                <div class="relative w-24 h-24">
+                    <img class="w-full h-full rounded-full" *ngIf="urlImage" [src]="urlImage" alt="User avatar">
+                    <mat-icon class="icon-size-24" *ngIf="!urlImage" [svgIcon]="'heroicons_solid:user-circle'">
+                    </mat-icon>
+                </div>
+            </div>
+
+            <div class="text-2xl text-center">
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Nome</mat-label>
+                    <input matInput placeholder="Nome" #nome required>
+                </mat-form-field>
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Cognome</mat-label>
+                    <input matInput placeholder="Cognome" #co required>
+                </mat-form-field>
+
+            </div>
+
+            <div class="text-2xl text-center">
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                        placeholder="Ex. nome@example.com" required #email>
+                    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                        Si prega di inserire un indirizzo email valido
+                    </mat-error>
+                    <mat-error *ngIf="emailFormControl.hasError('required')">
+                        L'email è <strong>richiesta</strong>!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Sede:</mat-label>
+                    <select matNativeControl required #fsede>
+                        <option *ngFor="let n of sede" [value]="n">
+                            {{n}}
+                        </option>
+                    </select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="text-2xl text-center">
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Visibilità Dati:</mat-label>
+                    <select matNativeControl required #fdati>
+                        <option *ngFor="let n of roules" [value]="n">
+                            {{n}}
+                        </option>
+                    </select>
+                </mat-form-field>
+
+                <mat-form-field class="flex flex-col gt-xs:flex-row">
+                    <mat-label>Password</mat-label>
+                    <input id="password" matInput type="password" value="grppassword" #password required #passwordField>
+                    <button mat-icon-button type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                    <mat-error>
+                        La password è richiesta
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex justify-end">
+                <button mat-raised-button color="primary"
+                    (click)="adduser(nome.value, co.value, email.value, fsede.value, fdati.value, password.value, urlImage)">Aggiungi
+                    Utente</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

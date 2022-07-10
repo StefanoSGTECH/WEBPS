@@ -1,0 +1,102 @@
+<div class="flex flex-col mt-4 p-4 bg-card rounded-2xl shadow overflow-hidden max-w-2xl">
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Periodo:</mat-label>
+        <mat-date-range-input [formGroup]="selected" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Data di Inizio" (dateInput)="onFiltro(tipoi.value)">
+            <input matEndDate formControlName="end" placeholder="Data di fine"  (dateInput)="onFiltro(tipoi.value)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="selected.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="selected.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Tipo:</mat-label>
+        <select matNativeControl class="form-control" (change)="onFiltro(tipoi.value)" #tipoi>
+            <option *ngFor="let tip of registrazione" [value]="tip">
+                {{ tip }}
+            </option>
+        </select>
+    </mat-form-field>
+
+</div>
+
+<mat-card class="flex flex-col mt-4 p-4 bg-card rounded-2xl shadow overflow-hidden" *ngIf="totaletorte > 0 && tipoi.value !== 'Incasso'">
+    <h2 class="text-2xl"><b>Totale:</b> {{ totaletorte | number:'':'it' }} €</h2>
+</mat-card>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0 ng-star-inserted mt-4">
+
+    <mat-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" *ngIf="rcatotal > 0 || retotal > 0">
+        <h2><b>RCA e RE</b></h2>
+        <ngx-charts-pie-chart
+                [view]="[340, 300]"
+                [scheme]="colorScheme"
+                [results]="rcarescheme"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                class="flex items-center justify-center"
+        >
+        </ngx-charts-pie-chart>
+        <h3><b>RCA:</b> {{ rcatotal | number:'':'it'}} €</h3>
+        <h3><b>RE:</b> {{ retotal | number:'':'it'}} €</h3>
+    </mat-card>
+
+    <mat-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="vitatants > 0 || vitaUnicotants > 0">
+        <h2><b>Vita</b></h2>
+        <ngx-charts-pie-chart
+                [view]="[340, 300]"
+                [scheme]="colorSchemeCrea"
+                [results]="vitascheme"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                class="flex items-center justify-center"
+        >
+        </ngx-charts-pie-chart>
+        <h3><b>Annuo:</b> {{ vitatants | number:'':'it'}} €</h3>
+        <h3><b>Unico:</b> {{ vitaUnicotants | number:'':'it'}} €</h3>
+    </mat-card>
+
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0 ng-star-inserted mt-4">
+
+    <mat-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="creatants > 0">
+        <h2><b>Crea</b></h2>
+        <ngx-charts-pie-chart
+                [view]="[340, 300]"
+                [scheme]="colorSchemeCrea"
+                [results]="creascheme"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                class="flex items-center justify-center"
+        >
+        </ngx-charts-pie-chart>
+        <h3><b>Totale Crea:</b> {{ creatants | number:'':'it'}} €</h3>
+    </mat-card>
+
+    <mat-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden" *ngIf="consultants > 0">
+        <h2><b>Consulenze</b></h2>
+        <ngx-charts-pie-chart
+                [view]="[340, 300]"
+                [scheme]="colorScheme"
+                [results]="consulenzescheme"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                class="flex items-center justify-center"
+        >
+        </ngx-charts-pie-chart>
+        <h3><b>Totale Consulenze:</b> {{ consultants | number:'':'it'}} €</h3>
+    </mat-card>
+
+</div>
+
+<mat-card class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" *ngIf="totaletorte <= 0">
+    <h1 class="text-2xl"><b>Nessun filtro selezionato.</b> Scegli il periodo o il tipo!</h1>
+</mat-card>

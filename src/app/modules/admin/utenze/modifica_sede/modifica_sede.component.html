@@ -1,0 +1,80 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Title -->
+          <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <b>Modifica Sede</b>
+              </h2>
+          </div>
+          <!--<button mat-raised-button class="mt-4" routerLink="/utenze" color="primary">Torna a Utenze</button>-->
+      </div>
+      <!-- Actions -->
+      <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <button mat-raised-button color="primary" routerLink="/utenze">Torna alle utenze</button>
+      </div>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+      <!-- CONTENT GOES HERE -->
+      <div class="p-4 bg-card shadow rounded-2xl overflow-hidden">
+
+        <div class="text-2xl text-center">
+
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            <b>{{ firstName }} {{ lastName }}</b>
+          </h2>
+    
+          <h3 class="text-center mt-4"><b>Vecchia sede e Visibilità dei dati:</b></h3>
+
+          <mat-form-field class="flex flex-col gt-xs:flex-row">
+            <mat-label>Vecchia Sede:</mat-label>
+            <select matNativeControl [formControl]="sedeold" class="readonly-block">
+              <option *ngFor="let n of sedi" [value]="n">
+                {{n}}
+              </option>
+            </select>
+          </mat-form-field>
+    
+          <mat-form-field class="flex flex-col gt-xs:flex-row">
+            <mat-label>Valore vecchio della visibilità Dati:</mat-label>
+            <select matNativeControl [formControl]="rouleold" class="readonly-block">
+              <option *ngFor="let n of roules" [value]="n">
+                {{n}}
+              </option>
+            </select>
+          </mat-form-field>
+    
+          <h3 class="text-center mt-4"><b>Nuova sede e Visibilità dei dati:</b></h3>
+
+          <mat-form-field class="flex flex-col gt-xs:flex-row">
+            <mat-label>Sede:</mat-label>
+            <select matNativeControl required #fsede [formControl]="sedenew">
+              <option *ngFor="let n of sedi" [value]="n">
+                {{n}}
+              </option>
+            </select>
+          </mat-form-field>
+    
+          <mat-form-field class="flex flex-col gt-xs:flex-row">
+            <mat-label>Visibilità Dati:</mat-label>
+            <select matNativeControl required #roulv [formControl]="roulenew">
+              <option *ngFor="let n of roules" [value]="n">
+                {{n}}
+              </option>
+            </select>
+          </mat-form-field>
+
+        <div class="flex justify-end">
+          <button mat-raised-button color="primary" (click)="modificasede(fsede.value, roulv.value)">Modifica Sede</button>
+      </div>
+
+      </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,47 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- <div class="relative w-24 h-24">
+              <img class="w-full h-full rounded-full" *ngIf="urlImage" [src]="urlImage" alt="User avatar">
+              <mat-icon class="icon-size-24" *ngIf="!urlImage" [svgIcon]="'heroicons_solid:user-circle'">
+              </mat-icon>
+          </div> -->
+          <!-- Title  -->
+          <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <b></b>
+              </h2>
+          </div>
+          <!--<button mat-raised-button class="mt-4" routerLink="/utenze" color="primary">Torna a Utenze</button>-->
+      </div>
+      <!-- Actions -->
+      <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <button mat-raised-button color="primary" routerLink="/utenze">Torna alle utenze</button>
+      </div>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+      <!-- CONTENT GOES HERE -->
+      <div class="p-4 bg-card shadow rounded-2xl overflow-hidden">
+
+        <div class="text-2xl text-center">
+
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            <b><br>{{ firstName }} {{ lastName }}</b>
+          </h2>
+    
+          <h3 class="text-4xl text-center mt-4">Utenza {{ status == 1 ? "Disattiva" : "Attiva" }}</h3>
+
+        <div class="flex justify-center mt-4">
+          <button mat-raised-button color="primary" (click)="attivadisattivaUtenza()">{{ status == 1 ? "Attiva" : "Disattiva" }}</button>
+        </div>
+
+      </div>
+
+  </div>
+
+</div>

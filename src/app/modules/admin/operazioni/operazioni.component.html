@@ -1,0 +1,369 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+    <!-- Vertical stepper -->
+    <form class="p-4 bg-card shadow rounded overflow-hidden max-w-6xl">
+      <mat-vertical-stepper #stepper>
+          <mat-step [stepControl]="formreg" errorMessage="Registrazione è obbligatorio!">
+              <form [formGroup]="formreg">
+                <ng-template matStepLabel>Registrazione</ng-template>
+      
+                <div class="flex flex-col gt-xs:flex-row">
+                  <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <mat-label>Data:</mat-label>
+                    <input matInput type="date" formControlName="fdata" [(ngModel)]="data" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+        
+                  <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <mat-label>Tipo:</mat-label>
+                    <select matNativeControl formControlName="ftipo" required>
+                      <option *ngFor="let n of tipo" [value]="n">
+                        {{n}}
+                      </option>
+                    </select>
+                  </mat-form-field>
+        
+                  <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <mat-label>Società:</mat-label>
+                    <select matNativeControl formControlName="fsoceta" required>
+                      <option *ngFor="let s of soceta" [value]="s">
+                        {{s}}
+                      </option>
+                    </select>
+                  </mat-form-field>
+                </div>
+      
+                <div class="flex justify-end">
+                  <button mat-button matStepperNext mat-raised-button color="primary">Successivo</button>
+                </div>
+              </form>
+            </mat-step>
+          <mat-step [stepControl]="formcli" errorMessage="Cliente è richiesto!">
+              <form [formGroup]="formcli">
+                <ng-template matStepLabel>Cliente</ng-template>
+        
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Nome:</mat-label>
+                      <input matInput formControlName="fnome">
+                    </mat-form-field>
+          
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Cognome:</mat-label>
+                      <input matInput formControlName="fco">
+                    </mat-form-field>
+          
+                    <mat-label class="flex-auto gt-xs:pr-3 text-center">Oppure</mat-label>
+          
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Società:</mat-label>
+                      <input matInput formControlName="fclisoceta">
+                    </mat-form-field>
+                  </div>
+                  <div class="flex justify-end">
+                    <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                    <button class="ml-1" mat-button matStepperNext mat-raised-button color="primary">Successivo</button>
+                  </div>
+              </form>
+            </mat-step>
+          <mat-step [stepControl]="formramo" errorMessage="Ramo è obbligatorio!">
+              <form [formGroup]="formramo">
+                  <ng-template matStepLabel>Ramo</ng-template>
+      
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Ramo:</mat-label>
+                      <select matNativeControl formControlName="framo" (change)="onRamo(vramo.value)" required #vramo>
+                        <option *ngFor="let r of ramo" [value]="r">
+                          {{r}}
+                        </option>
+                      </select>
+                    </mat-form-field>
+                  </div>
+                  <div class="flex justify-end">
+                    <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                    <button *ngIf="vramo.value != ''" class="ml-1" mat-button matStepperNext mat-raised-button color="primary">Successivo</button>
+                  </div>
+              </form>
+          </mat-step>
+          <mat-step [stepControl]="form" *ngIf="vramo.value == 'Vita'">
+              <form [formGroup]="form">
+                  <ng-template matStepLabel>Vita</ng-template>
+      
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Tipologia:</mat-label>
+                      <select matNativeControl formControlName="ftipologia" required>
+                        <option *ngFor="let t of tipologia" [value]="t">
+                          {{t}}
+                        </option>
+                      </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Compagnia:</mat-label>
+                      <select matNativeControl formControlName="fcompagnia" required #compi>
+                        <option *ngFor="let c of compagnia" [value]="c">
+                          {{c}}
+                        </option>
+                      </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Prodotto:</mat-label>
+                      <select matNativeControl formControlName="fprodotto" required #prodotto>
+                        <option *ngFor="let p of prod" [value]="p">
+                          {{p}}
+                        </option>
+                      </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Premio:</mat-label>
+                      <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" required>
+                      <span matPrefix>€&nbsp;</span>
+                      <span matSuffix>.00</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Frazionamento:</mat-label>
+                      <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #fraz>
+                        <option *ngFor="let f of frazionamento" [value]="f">
+                          {{f}}
+                        </option>
+                      </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Durata:</mat-label>
+                      <input matInput type="number" formControlName="fdurata" [value]="compi.value == 'Crea' ? 1 : null" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #durata required>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Montante:</mat-label>
+                      <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Montante Provvigionale:</mat-label>
+                      <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Provvigione:</mat-label>
+                      <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #provvigione required>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Provvigione in %:</mat-label>
+                      <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" readonly>
+                      <span matSuffix>%</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                      <mat-label>Provvigione Lorda Maturata:</mat-label>
+                      <input matInput [value]="plmt" formControlName="fplmt" readonly>
+                    </mat-form-field>
+                  </div>
+      
+                  <div class="flex justify-end">
+                    <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                    <button class="ml-1" matStepperNext mat-raised-button color="primary">Successivo</button>
+                  </div>
+              </form>
+            </mat-step>
+          <mat-step [stepControl]="form" *ngIf="vramo.value == 'Danni'">
+              <form [formGroup]="form">
+                  <ng-template matStepLabel>Danni</ng-template>
+      
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Tipologia:</mat-label>
+                        <select matNativeControl formControlName="ftipologia" required (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" #tipdan>
+                            <option *ngFor="let t of tipologia" [value]="t">
+                                {{t}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Compagnia:</mat-label>
+                        <select matNativeControl formControlName="fcompagnia" required #compi>
+                            <option *ngFor="let c of compagnia" [value]="c">
+                                {{c}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Prodotto:</mat-label>
+                        <select matNativeControl formControlName="fprodotto" required #prodotto>
+                            <option *ngFor="let p of prod" [value]="p">
+                                {{p}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Premio:</mat-label>
+                        <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" required>
+                        <span matPrefix>€&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Frazionamento:</mat-label>
+                        <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" #fraz>
+                            <option *ngFor="let f of frazionamento" [value]="f">
+                                {{f}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Durata:</mat-label>
+                        <input matInput type="number" [value]="1" #durata required readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Montante:</mat-label>
+                        <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Montante Provvigionale:</mat-label>
+                        <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly>
+                    </mat-form-field>
+        
+                    <!--<mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione:</mat-label>
+                        <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, tipdan.value)" #provvigione required>
+                    </mat-form-field>-->
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione in %:</mat-label>
+                        <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" [readonly]="utente !== true" #provvigione (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, tipdan.value)">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione Lorda Maturata:</mat-label>
+                        <input matInput [value]="plmt" formControlName="fplmt" readonly>
+                    </mat-form-field>
+                  </div>
+      
+                  <div class="flex justify-end">
+                    <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                      <button class="ml-1" matStepperNext mat-raised-button color="primary">Successivo</button>
+                  </div>
+              </form>
+            </mat-step>
+          <mat-step [stepControl]="form" *ngIf="vramo.value == 'Consulenza'">
+              <form [formGroup]="form">
+                  <ng-template matStepLabel>Consulenza</ng-template>
+      
+                  <div class="flex flex-col gt-xs:flex-row">
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Tipologia:</mat-label>
+                        <select matNativeControl formControlName="ftipologia" required>
+                            <option *ngFor="let t of tipologia" [value]="t">
+                                {{t}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Premio:</mat-label>
+                        <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" required>
+                        <span matPrefix>€&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Frazionamento:</mat-label>
+                        <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" #fraz>
+                            <option *ngFor="let f of frazionamento" [value]="f">
+                                {{f}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Durata:</mat-label>
+                        <input matInput type="number" formControlName="fdurata" [ngModel]="1" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Montante:</mat-label>
+                        <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Montante Provvigionale:</mat-label>
+                        <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione:</mat-label>
+                        <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" #provvigione required>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione in %:</mat-label>
+                        <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" readonly>
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+        
+                    <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                        <mat-label>Provvigione Lorda Maturata:</mat-label>
+                        <input matInput [value]="plmt" formControlName="fplmt" readonly>
+                    </mat-form-field>
+                  </div>
+      
+                  <div class="flex justify-end">
+                    <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                      <button class="ml-1" matStepperNext mat-raised-button color="primary">Successivo</button>
+                  </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="formcommento">
+                <form [formGroup]="formcommento">
+                    <ng-template matStepLabel>Commento</ng-template>
+      
+                    <div class="flex flex-col gt-xs:flex-row">
+                      <mat-form-field class="flex-auto gt-xs:pr-3" appearance="fill">
+                          <mat-label>Commento Facoltativo</mat-label>
+                          <textarea matInput formControlName="fcommento"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <div class="flex justify-end">
+                        <button mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                        <button *ngIf="vramo.value != ''" class="ml-1" mat-button matStepperNext mat-raised-button color="primary">Successivo</button>
+                    </div>
+                </form>
+            </mat-step>
+      
+          <mat-step *ngIf="vramo.value !== '' ">
+              <form [formGroup]="form">
+                <ng-template *ngIf="alert == 0"  matStepLabel>Caricamento</ng-template>
+                <ng-template *ngIf="alert == 1.5"  matStepLabel>Caricamento In corso...</ng-template>
+                <ng-template *ngIf="alert == 1"  matStepLabel>Caricamento Riuscito!</ng-template>
+              <div class="flex justify-end">
+                  <button *ngIf="alert == 0" mat-button matStepperPrevious mat-raised-button color="primary">Indietro</button>
+                  <button *ngIf="alert == 0 && vramo.value == 'Vita'" class="ml-1 btn-verede" mat-button (click)="conferma_vita()" mat-raised-button color="warn">Carica</button>
+                  <button *ngIf="alert == 0 && vramo.value == 'Danni'" class="ml-1 btn-verede" mat-button (click)="conferma_danni()" mat-raised-button color="warn">Carica</button>
+                  <button *ngIf="alert == 0 && vramo.value == 'Consulenza'" class="ml-1 btn-verede" mat-button (click)="conferma_cons()" mat-raised-button color="warn">Carica</button>
+                  <mat-spinner *ngIf="alert == 1.5" diameter="40"></mat-spinner>
+                  <button *ngIf="alert == 1" mat-button class="ml-1" (click)="stepper.reset();nwOperazione();" mat-raised-button color="primary">Nuova Operazione</button>
+              </div>
+            </form>
+          </mat-step>
+      
+      </mat-vertical-stepper>
+    </form>
+  </div>
+</div>

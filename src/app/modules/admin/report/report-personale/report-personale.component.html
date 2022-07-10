@@ -1,0 +1,210 @@
+<div class="flex flex-col mt-4 p-4 bg-card rounded-2xl shadow overflow-hidden max-w-2xl">
+    <!--    <mat-form-field class="mr-1" appearance="fill">
+        <mat-label>Frazionamento:</mat-label>
+        <input type="text" class="form-control bg-primary-o " matInput ngxDaterangepickerMd [locale]="{applyLabel: 'ok', format: 'YYYY-MM-DD'}" startKey="start" endKey="end" [(ngModel)]="selected" (change)="onFiltro(collabi.value ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)"/>
+    </mat-form-field>-->
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Periodo:</mat-label>
+        <mat-date-range-input [formGroup]="selected" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Data di Inizio" (dateInput)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)">
+            <input matEndDate formControlName="end" placeholder="Data di fine" (dateInput)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="selected.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="selected.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+   <div class="flex">
+
+        <mat-form-field class="flex-auto gt-xs:pr-3" [ngStyle]="{'display': (!multi) ? 'block' : 'none'}">
+            <mat-label>Collaboratore:</mat-label>
+            <mat-select [formControl]="panelTutti" matNativeControl (valueChange)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #collabi>
+                <mat-option *ngFor="let collab of collaboratore" [value]="[{ id: collab.id, type: collab.type }]">
+                    {{ collab.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto gt-xs:pr-3" [ngStyle]="{'display': (multi) ? 'block' : 'none'}">
+            <mat-label>Collaboratori:</mat-label>
+            <mat-select [formControl]="panelTutti" matNativeControl (valueChange)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #collabi2 multiple>
+                <mat-option *ngFor="let collab of collaboratoremulti" [value]="{ id: collab.id, type: collab.type }">
+                    {{ collab.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button [color]="multi ? 'primary' : 'accent'" class="flex-2 gt-xs:pr-3 ml-2" style="margin-top: 7%;" (click)="multiperson()" *ngIf="multihide">
+            <mat-icon>group</mat-icon>
+        </button>
+
+    </div>
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Tipo:</mat-label>
+        <select matNativeControl class="form-control " (change)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #tipoi>
+            <option *ngFor="let tip of registrazione" [value]="tip">
+                {{ tip }}
+            </option>
+        </select>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Ramo:</mat-label>
+        <select matNativeControl class="form-control " (change)="oncgRamo(ramoi.value);onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #ramoi>
+            <option *ngFor="let ra of ramo" [value]="ra">
+                {{ ra }}
+            </option>
+        </select>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Tipologie:</mat-label>
+        <select matNativeControl class="form-control " (change)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #tipologiai>
+            <option *ngFor="let ti of tipologia" [value]="ti">
+                {{ ti }}
+            </option>
+        </select>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto gt-xs:pr-3">
+        <mat-label>Compagnia:</mat-label>
+        <select matNativeControl class="form-control " (change)="onFiltro((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)" #compagniai>
+            <option *ngFor="let co of compagnia" [value]="co">
+                {{ co }}
+            </option>
+        </select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="mr-1 mb-2" (click)="dowaloadexcel((multi ? collabi2.value : collabi.value) ,tipoi.value ,ramoi.value, tipologiai.value, compagniai.value)">Crea Excel</button>
+
+</div>
+
+<br>
+
+<div class="flex flex-col mt-4 p-4 bg-card rounded-2xl shadow overflow-hidden" *ngIf="total > 0">
+    <span cclass="text-2xl">TOTALE {{ total | number:'':'it'}} €</span>
+</div>
+
+<div class="example-container mat-elevation-z8 bg-card rounded-2xl mt-4" *ngIf="total > 0">
+
+    <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="utente">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Collaboratore </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="utente"> {{row.creatorNome}} {{row.creatorCognome}} - {{row.creatorSede}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="data">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="data"> {{row.data}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="nome"> {{row.clientNome}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="co">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Cognome </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Cognome"> {{row.clientCognome}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="soccli">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Società </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Società Cliente"> {{row.clientSoceta}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tipo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="tipo"> {{row.registrazione}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sco">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Società </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Società"> {{row.societa}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ramo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Ramo </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="ramo"> {{row.ramo}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tipologia">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Tipologia </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="tipologia"> {{row.tipologia}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="compagnia">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Compagnia </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="compagnia"> {{row.compagnia}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="prodotto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Prodotto </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="prodotto"> {{row.prodotto}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="premio">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Premio </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="premio"> {{row.premio | number:'':'it'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="frazionamento">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Frazionamento </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="frazionamento"> {{row.frazionamento}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="durata">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Durata </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="durata"> {{row.durata}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="montante">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Montante </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="montante"> {{row.montante | number:'':'it'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="montanteprov">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Montante Provvigionale </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="montante Provvigionale"> {{row.montanteprov | number:'':'it'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="provvigione">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Provvigione </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="provvigione"> {{row.provvigione}} %</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="risultato">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Risultato </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="risultato"> {{row.provvigionelordmat | number:'':'it'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="commento">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Commento </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="commento"> {{row.commento}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="modifica">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Modifica </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="modifica">
+                <button mat-raised-button routerLink="/mod_operazioni/{{row.opId}}/{{row.clientId}}" color="primary"><mat-icon>edit</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="elimina">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Elimina </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="elimina">
+                <button mat-raised-button routerLink="/del_operazioni/{{row.opId}}/{{row.clientId}}" color="warn"><mat-icon>delete</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <!--<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
+</div>

@@ -1,0 +1,40 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+         <!-- Header -->
+         <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between pb-8">
+            <!-- Title -->
+            <div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Notifiche</div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-3xl">
+
+            <!-- Form -->
+            <form>
+                <div class="">Se effettui modifiche verranno apportate anche sul app ios.</div>
+                <div class="grid grid-cols-1 gap-6 w-full mt-8">
+                    
+                    <div class="flex items-center justify-between pl-2" *ngFor="let t of topics">
+                        <div class="flex-auto cursor-pointer">
+                            <div class="leading-6 font-medium">{{ topicName(t) }}</div>
+                        </div>
+                        <button
+                            class="ml-2"
+                            [color]="!buttonStateBoolean(t) ? 'primary' : 'white'"
+                            mat-raised-button
+                            (click)="changeState(t)">
+                            {{ buttonState(t) }}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

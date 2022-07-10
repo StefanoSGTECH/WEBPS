@@ -1,0 +1,49 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+      <!-- CONTENT GOES HERE -->
+      <form class="flex flex-col p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden max-w-2xl">
+        <div class="flex flex-col gt-xs:flex-row">
+          <mat-form-field class="flex-auto gt-xs:pr-3">
+            <mat-label>Frazionamento:</mat-label>
+            <select matNativeControl class="form-control" (change)="reportpage=reportsel.value" #reportsel>
+                <option *ngFor="let n of reportype" [value]="n">
+                    {{n}}
+                  </option>
+            </select>
+          </mat-form-field>
+        </div>
+      </form>
+
+      <app-report-generale *ngIf="reportpage=='Generale'"></app-report-generale>
+      <app-report-generale-s *ngIf="reportpage=='Generale Sedi'"></app-report-generale-s>
+      <app-generale-sedi *ngIf="reportpage=='Generale -> Sede'"></app-generale-sedi>
+      <app-report-personale *ngIf="reportpage=='Personale'"></app-report-personale>
+      <app-graficpersonal *ngIf="reportpage=='Personale Grafici'"></app-graficpersonal>
+      <app-report-provvigioni *ngIf="reportpage=='Provvigioni'"></app-report-provvigioni>
+      <app-report-cliente *ngIf="reportpage=='Cliente'"></app-report-cliente>
+
+  </div>
+
+</div>
+
+<style>
+.mt-2 {
+    margin-top: 2em;
+}
+.ml-1 {
+    margin-left: 1em;
+}
+.mr-1 {
+    margin-right: 1em;
+}
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.btn-verede {
+    background-color: #199101!important;
+}
+</style>

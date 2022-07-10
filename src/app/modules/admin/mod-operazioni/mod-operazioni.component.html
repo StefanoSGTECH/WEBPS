@@ -1,0 +1,336 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Modifica Operazione
+                </h2>
+            </div>
+            <!--<div class="mt-2">
+                <p class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
+                    Operazione creata da: {{ utentecreazione[2] + ' ' + utentecreazione[1] }}
+                </p>
+            </div>
+            <div class="mt-2">
+                <p class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate" *ngIf="utentemodifica[0]!==undefined">
+                    Ultima modifica effetuata da: {{ utentemodifica[2] + ' ' + utentemodifica[1] }}
+                </p>
+            </div>!-->
+        </div>
+        <!-- Actions -->
+        <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button *ngIf="vramo.value == 'Vita'" mat-raised-button class="ml-1 btn-verede" color="warn" (click)="conferma_vita()">Salva Modifiche</button>
+            <button *ngIf="vramo.value == 'Danni'" mat-raised-button class="ml-1 btn-verede" color="warn" (click)="conferma_danni()">Salva Modifiche</button>
+            <button *ngIf="vramo.value == 'Consulenza'" mat-raised-button class="ml-1 btn-verede" color="warn" (click)="conferma_cons()">Salva Modifiche</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="flex-auto p-6 sm:p-10">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 w-full min-w-0 ng-star-inserted mt-4">
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="formreg">
+
+                        <h1 class="mt-2 mb-2 text-2xl">Registrazione</h1>
+
+                        <mat-form-field class="flex flex-col gt-xs:flex-row">
+                            <mat-label>Data:</mat-label>
+                            <input matInput type="date" formControlName="fdata" [(ngModel)]="data" required>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex flex-col gt-xs:flex-row">
+                            <mat-label>Tipo:</mat-label>
+                            <select matNativeControl formControlName="ftipo" required [(ngModel)]='tiposel'>
+                                <option *ngFor="let n of tipo" [value]="n">
+                                    {{n}}
+                                </option>
+                            </select>
+                        </mat-form-field>
+
+                        <mat-form-field class="flex flex-col gt-xs:flex-row">
+                            <mat-label>Società:</mat-label>
+                            <select matNativeControl formControlName="fsoceta" required [(ngModel)]='socetasel'>
+                                <option *ngFor="let s of soceta" [value]="s">
+                                    {{s}}
+                                </option>
+                            </select>
+                        </mat-form-field>
+                </form>
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center"  [formGroup]="formcli">
+
+                    <h1 class="mt-2 mb-2 text-2xl">Cliente</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row" appearance="fill">
+                        <mat-label>Nome:</mat-label>
+                        <input matInput formControlName="fnome" [(ngModel)]="nomesel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row" appearance="fill">
+                        <mat-label>Cognome:</mat-label>
+                        <input matInput formControlName="fco" [(ngModel)]="cosel">
+                    </mat-form-field>
+
+                    <mat-label class="flex flex-col gt-xs:flex-row">Oppure:</mat-label>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Società:</mat-label>
+                        <input matInput formControlName="fclisoceta" [(ngModel)]="socetclisel">
+                    </mat-form-field>
+                </form>
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="formramo">
+
+                    <h1 class="mt-2 mb-2 text-2xl">Ramo:</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Ramo:</mat-label>
+                        <select matNativeControl formControlName="framo" (change)="onRamo(vramo.value)" required #vramo [(ngModel)]="ramosel">
+                            <option *ngFor="let r of ramo" [value]="r">
+                                {{r}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                </form>
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="form" *ngIf="vramo.value == 'Vita'">
+
+                    <h1 class="mt-2 mb-2 text-2xl">Vita:</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Tipologia:</mat-label>
+                        <select matNativeControl formControlName="ftipologia" required [(ngModel)]="tipologiasel">
+                            <option *ngFor="let t of tipologia" [value]="t">
+                                {{t}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Compagnia:</mat-label>
+                        <select matNativeControl formControlName="fcompagnia" required #compi [(ngModel)]="compagniasel">
+                            <option *ngFor="let c of compagnia" [value]="c">
+                                {{c}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Prodotto:</mat-label>
+                        <select matNativeControl formControlName="fprodotto" required #prodotto [(ngModel)]="prodottosel">
+                            <option *ngFor="let p of prod" [value]="p">
+                                {{p}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Premio:</mat-label>
+                        <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" required [(ngModel)]="premiosel">
+                        <span matPrefix>€&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Frazionamento:</mat-label>
+                        <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #fraz [(ngModel)]="frazionamentosel">
+                            <option *ngFor="let f of frazionamento" [value]="f">
+                                {{f}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Durata:</mat-label>
+                        <input matInput type="number" formControlName="fdurata" [value]="compi.value == 'Crea' ? 1 : null" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #durata required [(ngModel)]="duratasel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante:</mat-label>
+                        <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly [(ngModel)]="montantesel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante Provvigionale:</mat-label>
+                        <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly [(ngModel)]="montanteprosel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione:</mat-label>
+                        <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, '')" #provvigione required [(ngModel)]="provvigionesel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione in %:</mat-label>
+                        <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" readonly [(ngModel)]="provvigioneoutpsel">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione Lorda Maturata:</mat-label>
+                        <input matInput [value]="plmt" formControlName="fplmt" readonly [(ngModel)]="plmtsel">
+                    </mat-form-field>
+
+                </form>
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="form" *ngIf="vramo.value == 'Danni'">
+                    <h1 class="mt-2 mb-2 text-2xl">Danni</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Tipologia:</mat-label>
+                        <select matNativeControl formControlName="ftipologia" required (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" #tipdan [(ngModel)]="tipologiasel">
+                            <option *ngFor="let t of tipologia" [value]="t">
+                                {{t}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Compagnia:</mat-label>
+                        <select matNativeControl formControlName="fcompagnia" required #compi [(ngModel)]="compagniasel">
+                            <option *ngFor="let c of compagnia" [value]="c">
+                                {{c}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Prodotto:</mat-label>
+                        <select matNativeControl formControlName="fprodotto" required #prodotto [(ngModel)]="prodottosel">
+                            <option *ngFor="let p of prod" [value]="p">
+                                {{p}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Premio:</mat-label>
+                        <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" required [(ngModel)]="premiosel">
+                        <span matPrefix>€&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Frazionamento:</mat-label>
+                        <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, durata.value, '0', fraz.value, tipdan.value)" #fraz [(ngModel)]="frazionamentosel">
+                            <option *ngFor="let f of frazionamento" [value]="f">
+                                {{f}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Durata:</mat-label>
+                        <input matInput type="number" #durata required readonly [value]="duratasel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante:</mat-label>
+                        <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly [(ngModel)]="montantesel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante Provvigionale:</mat-label>
+                        <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly [(ngModel)]="montanteprosel">
+                    </mat-form-field>
+
+                    <!--<mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione:</mat-label>
+                        <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, tipdan.value)" #provvigione required>
+                    </mat-form-field>-->
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione in %:</mat-label>
+                        <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" [readonly]="utente !== true" #provvigione (change)="cgMontante(premio.value, durata.value, provvigione.value, fraz.value, tipdan.value)" [(ngModel)]="provvigioneoutpsel">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione Lorda Maturata:</mat-label>
+                        <input matInput [value]="plmt" formControlName="fplmt" readonly [(ngModel)]="plmtsel">
+                    </mat-form-field>
+
+                </form>
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="form" *ngIf="vramo.value == 'Consulenza'">
+                    <h1 class="mt-2 mb-2 text-2xl">Consulenza</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Tipologia:</mat-label>
+                        <select matNativeControl formControlName="ftipologia" required [(ngModel)]="tipologiasel">
+                            <option *ngFor="let t of tipologia | async" [value]="t.nome">
+                                {{t.nome}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Premio:</mat-label>
+                        <input matInput type="number" formControlName="fpremio" #premio (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" required [(ngModel)]="premiosel">
+                        <span matPrefix>€&nbsp;</span>
+                        <span matSuffix>.00</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Frazionamento:</mat-label>
+                        <select matNativeControl formControlName="ffrazionamento" required (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" #fraz [(ngModel)]="frazionamentosel">
+                            <option *ngFor="let f of frazionamento" [value]="f">
+                                {{f}}
+                            </option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Durata:</mat-label>
+                        <input matInput type="number" formControlName="fdurata" readonly [(ngModel)]="duratasel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante:</mat-label>
+                        <input matInput type="number" formControlName="fmontatnte" [value]="montante" readonly [(ngModel)]="montanteprosel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Montante Provvigionale:</mat-label>
+                        <input matInput type="number" [value]="montantepro" formControlName="fmontanteprov" readonly [(ngModel)]="montanteprosel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione:</mat-label>
+                        <input matInput type="number" formControlName="fprovvigione" (change)="cgMontante(premio.value, '1', provvigione.value, fraz.value, '')" #provvigione required [(ngModel)]="provvigionesel">
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione in %:</mat-label>
+                        <input matInput [value]="provvigioneoutp" formControlName="fprovvigioneout" readonly [(ngModel)]="provvigioneoutpsel">
+                        <span matSuffix>%</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Provvigione Lorda Maturata:</mat-label>
+                        <input matInput [value]="plmt" formControlName="fplmt" readonly [(ngModel)]="plmtsel">
+                    </mat-form-field>
+
+                </form>
+            </div>
+            <div class="sm:col-span-2 md:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden mt-4">
+                <form class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden text-center" [formGroup]="formcommento">
+                    <h1 class="mt-2 mb-2 text-2xl">Commento:</h1>
+
+                    <mat-form-field class="flex flex-col gt-xs:flex-row">
+                        <mat-label>Commento Facoltativo</mat-label>
+                        <textarea matInput formControlName="fcommento" [value]="commentosel"></textarea>
+                    </mat-form-field>
+                </form>
+
+            </div>
+
+    </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,38 @@
+.mt-2 {
+    margin-top: 2em;
+}
+.ml-1 {
+    margin-left: 1em;
+}
+.mr-1 {
+    margin-right: 1em;
+}
+.p-4 {
+    padding: 4em;
+}
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+.main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-verede {
+    background-color: #199101!important;
+}
+.titlecard {
+    font-size: xx-large;
+    font-family: Ubuntu-Bold, Serif;
+    color: black;
+}
+
+
+
+
+
+
+
+

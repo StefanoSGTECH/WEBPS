@@ -1,0 +1,73 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+      <!-- CONTENT GOES HERE -->
+
+      <div class="flex items-end justify-end" *ngIf="notificationsShow">
+        <mat-icon (click)="showNotification()">close</mat-icon>
+      </div>
+
+      <div class="flex items-end justify-end" *ngIf="!notificationsShow">
+          <mat-icon [matBadge]="notifications.length" matBadgeColor="warn" (click)="showNotification()" *ngIf="notifications.length > 0">notifications</mat-icon>
+          <mat-icon (click)="showNotification()" *ngIf="notifications.length <= 0">notifications</mat-icon>
+      </div>
+
+      <div class="flex items-center justify-center mt-8">
+          <div class="text-7xl font-bold leading-none ng-tns-c140-3 text-center">
+            <div class=""><b style="color: #3f51b5;">Ciao!</b> {{ userFullName }}</div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center mt-2">
+        <div class="text-2xl leading-none ng-tns-c140-3" *ngIf="notificationsShow">
+          <div class="ng-tns-c140-3">Ci sono {{notifications.length}} notifiche!</div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center mt-8">
+        <div class="text-4xl leading-none ng-tns-c140-3 text-center" *ngIf="!notificationsShow">
+          <div class="ng-tns-c140-3" style="font-family: Xanh_Mono;">"Impadronisciti della tecnica e scomparirà nella spontaneità di un gesto quasi perfetto"</div>
+        </div>
+      </div>
+
+      <div class="flex items-start justify-start m-4" *ngIf="notificationsShow && notifications.length > 0">
+        <button mat-button matStepperPrevious mat-raised-button color="primary" (click)="readAllNotification()">Leggi Tutte</button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0" *ngIf="notificationsShow">
+        <!-- Schedule -->
+        <div class="sm:col-span-2 md:col-span-4 lg:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+            <div class="flex flex-col divide-y">
+                <ng-container *ngFor="let scheduleItem of notifications; trackBy: trackByFn">
+                    <div class="flex flex-row items-center justify-between py-4 px-0.5">
+                        <mat-icon *ngIf="scheduleItem.topic == 'newFolder'">folder</mat-icon>
+                        <mat-icon *ngIf="scheduleItem.topic == 'newOperation'">add</mat-icon>
+                        <mat-icon *ngIf="scheduleItem.topic == 'updateApp'">update</mat-icon>
+                        <mat-icon *ngIf="scheduleItem.topic == 'newFile'">file</mat-icon>
+                        <mat-icon *ngIf="scheduleItem.topic == 'editUser'">person</mat-icon>
+                        <div class="flex flex-col flex-auto ml-4" (click)="scheduleItem.topic == 'newOperation' ? openOperation(scheduleItem.docId) : openNull()">
+                            <div class="font-medium font-bold">{{scheduleItem.title}}</div>
+                            <div class="font-medium">{{scheduleItem.body}}</div>
+                            <div class="font-">{{scheduleItem.date | date: 'dd/MM/yyyy'}}</div>
+                        </div>
+                        <button mat-icon-button (click)="readnot(scheduleItem.notificationId)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  @font-face {
+    font-family: Xanh_Mono;
+    src: url('../../../../assets/fonts/Xanh_Mono/XanhMono-Italic.ttf');
+  }
+</style>
