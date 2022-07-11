@@ -5,6 +5,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment.prod';
+import { infoUserService } from '../infoUser/infoUser.service';
 
 @Injectable()
 export class AuthService
@@ -14,7 +15,7 @@ export class AuthService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient, public _userInfo: infoUserService) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -148,6 +149,8 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
+        this._userInfo.get()
+
         // Check if the user is logged in
         if ( this._authenticated )
         {
@@ -157,6 +160,11 @@ export class AuthService
         // Check the access token availability
         if ( !this.accessToken )
         {
+            return of(false);
+        }
+
+        // Check useri is disabled
+        if (this._userInfo.user.disable == 1) {
             return of(false);
         }
 
