@@ -20,7 +20,7 @@ export class DoAppComponent implements OnInit {
 
   onNavigate2(){
     // your logic here.... like set the url 
-    const url = 'https://testflight.apple.com/join/qWSx7HBL';
+    const url = 'https://testflight.apple.com/join/ghKihwFd';
     window.open(url);
   }
 
