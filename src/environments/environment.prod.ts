@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    api: "https://personalgroup.it:8443",
+    api: "https://www.personalgroup.it:8443",
 	prefis: "ps",
     mqtt: {
 		server: 'personalgroup.it',
