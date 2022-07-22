@@ -1,9 +1,9 @@
 export const environment = {
     production: true,
-    api: "https://cloudpersonalgroups.stefanoghidini.it:8443",
+    api: "https://personalgroup.it:8443",
 	prefis: "ps",
     mqtt: {
-		server: 'cloudpersonalgroups.stefanoghidini.it',
+		server: 'personalgroup.it',
 		protocol: "wss",
 		port: 8083
 	}
