@@ -3,7 +3,7 @@ export const environment = {
     api: "https://www.personalgroup.it:8443",
 	prefis: "ps",
     mqtt: {
-		server: 'personalgroup.it',
+		server: 'www.personalgroup.it',
 		protocol: "wss",
 		port: 8083
 	}
